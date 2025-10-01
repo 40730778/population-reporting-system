@@ -12,8 +12,28 @@ This project provides a system to generate population reports for countries, cit
 IntelliJ,Docker,GIT account
 
 ## Team Roles
-- Product Owner: <Israel Ayemo> – sets project direction, manages repository
-- Scrum Master:  <Ahmed Ismail> – implements features
-- Developer 2:  <Oluwadarasimi Adekoya> – manages Docker
-- Developer 3:  <Aswin Aniyachan> – Writes documentation
-- Developer 4:  <Abdul Wasay> – sets up tests and CI improvements
+- Product Owner: Israel Ayemo > – sets project direction, manages repository
+- Scrum Master:  Ahmed Ismail> – implements features and in charge of Gitflow Workflow
+- Developer 2:  Oluwadarasimi Adekoya> – Executable JAR Setup
+- Developer 3:  Aswin Aniyachan> – Docker Setup
+- Developer 4:  Abdul Wasay> – Github Actions
+
+
+# Population Reporting System
+
+## How to Run
+
+1. Open the folder: `out/artifacts/population_reporting_system_jar`  
+2. Make sure you have Java installed and added to your PATH.  
+3. Double-click `run-app.bat` to start the program.  
+   - The program will run in a Command Prompt window.  
+   - Press any key to close the window after it finishes.
+
+## Running the Project
+
+- The JAR file is `app.jar`.  
+- The batch file (`run-app.bat`) is used to launch the program.  
+- If you want to run it manually, open PowerShell or Command Prompt in the same folder and type:
+                                 **java -jar app.jar**
+
+
