@@ -12,11 +12,11 @@ This project provides a system to generate population reports for countries, cit
 IntelliJ,Docker,GIT account
 
 ## Team Roles
-- Product Owner: <Israel Ayemo> – sets project direction, manages repository
-- Scrum Master:  <Ahmed Ismail> – implements features and in charge of Gitflow Workflow
-- Developer 2:  <Oluwadarasimi Adekoya> – Executable JAR Setup
-- Developer 3:  <Aswin Aniyachan> – Docker Setup
-- Developer 4:  <Abdul Wasay> – Github Actions
+- Product Owner: Israel Ayemo > – sets project direction, manages repository
+- Scrum Master:  Ahmed Ismail> – implements features and in charge of Gitflow Workflow
+- Developer 2:  Oluwadarasimi Adekoya> – Executable JAR Setup
+- Developer 3:  Aswin Aniyachan> – Docker Setup
+- Developer 4:  Abdul Wasay> – Github Actions
 
 
 # Population Reporting System
