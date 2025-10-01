@@ -33,9 +33,8 @@ IntelliJ,Docker,GIT account
 
 - The JAR file is `app.jar`.  
 - The batch file (`run-app.bat`) is used to launch the program.  
-- If you want to run it manually, open PowerShell or Command Prompt in the same folder and type:
+- If you want to run it manually, open PowerShell or Command Prompt in the same folder and type: java -jar app.jar
 
-java -jar app.jar
 Step 4: Save
 Save the file. ✅
 
