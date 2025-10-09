@@ -64,6 +64,12 @@ java -jar target/population-reports-1.0-SNAPSHOT.jar
 ```
 Follow the prompts to generate reports by country, city, or language statistics.
 
+## Current Features Implemented
+- Country Report (feature/country-report)
+- City Report (feature/city-report)
+- Language Statistics (feature/language-stats)
+
+
 ### Code of Conduct
 Please see CODE_OF_CONDUCT.md for guidelines on contributing and interacting with the team.
 
