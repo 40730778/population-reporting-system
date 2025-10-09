@@ -1,3 +1,4 @@
+![Use Case Diagram](usecase_diagram.png)
 # Use Case Specification – Population Reporting System
 
 ## UC01 – Generate Country Reports
