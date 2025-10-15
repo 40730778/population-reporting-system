@@ -14,6 +14,6 @@ IntelliJ,Docker,GIT account
 ## Team Roles
 - Product Owner: <Israel Ayemo> – sets project direction, manages repository
 - Scrum Master:  <Ahmed Ismail> – implements features
-- Developer 2:  <Oluwadarasimi Adekoya> – manages Docker
+- Developer 2:  <Oluwadarasimi Adekoya> – manages Docker.
 - Developer 3:  <Aswin Aniyachan> – Writes documentation
 - Developer 4:  <Abdul Wasay> – sets up tests and CI improvements
