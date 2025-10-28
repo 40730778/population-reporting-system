@@ -10,10 +10,16 @@ public class Database {
 
     public static Connection connect() {
         try {
-            // ✅ Use MySQL Driver (you already have it installed)
-            Class.forName("com.mysql.cj.jdbc.Driver");
-
             if (connection == null || connection.isClosed()) {
+
+                // ✅ Make sure the driver loads first
+                try {
+                    Class.forName("com.mysql.cj.jdbc.Driver");
+                } catch (ClassNotFoundException e) {
+                    System.out.println("❌ JDBC Driver not found: " + e.getMessage());
+                    return null;
+                }
+
                 connection = DriverManager.getConnection(
                         "jdbc:mysql://127.0.0.1:3306/world",
                         "root",
@@ -21,8 +27,6 @@ public class Database {
                 );
                 System.out.println("✅ Connected to database.");
             }
-        } catch (ClassNotFoundException e) {
-            System.out.println("❌ JDBC Driver not found: " + e.getMessage());
         } catch (SQLException e) {
             System.out.println("❌ Failed to connect: " + e.getMessage());
         }
