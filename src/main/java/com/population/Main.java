@@ -4,21 +4,20 @@ public class Main {
     public static void main(String[] args) {
         try {
             // =====================
-// POPULATION REPORTS
-// =====================
+// =============================
+// POPULATION REPORTS (23–28)
+// =============================
             PopulationReportService populationReport = new PopulationReportService();
 
-            System.out.println("=== Population of each Continent ===");
+            System.out.println("\n=== Population Breakdown Reports ===");
             populationReport.populationByContinent();
-
-            System.out.println("\n=== Population of each Region ===");
             populationReport.populationByRegion();
-
-            System.out.println("\n=== Population of each Country ===");
             populationReport.populationByCountry();
 
-
-
+            System.out.println("\n=== Population Totals ===");
+            populationReport.populationOfWorld();
+            populationReport.populationOfContinent("Asia");
+            populationReport.populationOfRegion("Western Europe");
 
             // =============================
             // ✅ DISCONNECT DATABASE
