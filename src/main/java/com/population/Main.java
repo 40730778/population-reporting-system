@@ -4,21 +4,13 @@ public class Main {
     public static void main(String[] args) {
         try {
             // =====================
-// POPULATION REPORTS
-// =====================
-            PopulationReportService populationReport = new PopulationReportService();
+// =============================
+// LANGUAGE STATISTICS REPORT
+// =============================
+            LanguageStatsService langReport = new LanguageStatsService();
 
-            System.out.println("=== Population of each Continent ===");
-            populationReport.populationByContinent();
-
-            System.out.println("\n=== Population of each Region ===");
-            populationReport.populationByRegion();
-
-            System.out.println("\n=== Population of each Country ===");
-            populationReport.populationByCountry();
-
-
-
+            System.out.println("\n=== Language Statistics (Speakers & % of World Population) ===");
+            langReport.listLanguageStatistics();
 
             // =============================
             // ✅ DISCONNECT DATABASE
@@ -27,6 +19,5 @@ public class Main {
 
         } catch (Exception e) {
             System.out.println("Error: " + e.getMessage());
-        }
-    }
+        }    }
 }
