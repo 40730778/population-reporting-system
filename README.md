@@ -68,6 +68,59 @@ Follow the prompts to generate reports by country, city, or language statistics.
 - Country Report (feature/country-report)
 - City Report (feature/city-report)
 - Language Statistics (feature/language-stats)
+- Population Statistics
+
+## 🧩 Branching Strategy
+
+The project follows the **Git Flow** branching model:
+
+| Branch | Purpose |
+|---------|----------|
+| `master` | Stable integration branch |
+| `feature/country-report` | Country population reports |
+| `feature/city-report` | City population reports |
+| `feature/capital-city-report` | Capital city reports |
+| `feature/population-report` | Population analysis |
+| `feature/language-stats-report` | Language-based population statistics |
+| `feature/tests` | Unit and integration test development |
+
+Each report was developed and tested in its own branch before merging into `master`.
+
+
+## 🧱 Continuous Integration and Testing
+
+All builds and tests are automatically verified through **GitHub Actions** using Maven.
+
+### CI Workflow (`.github/workflows/build.yml`)
+The workflow:
+1. Checks out the repository
+2. Sets up **JDK 17**
+3. Builds the project with Maven
+4. Runs all **JUnit 5 tests**
+5. Builds the **Docker image**
+
+This ensures every commit is tested for compilation, functionality, and integration.
+
+### Test Coverage
+
+| Test Type | Description | File |
+|------------|--------------|------|
+| **Unit Tests** | Validate service methods for each report type (Country, City, Capital City, etc.) | `CountryReportServiceTest.java`, `CityReportServiceTest.java`, etc. |
+| **Integration Test** | Confirms database connectivity | `DatabaseIntegrationTest.java` |
+
+All tests execute automatically in GitHub Actions.
+
+## 🗄️ Database Configuration
+
+The application connects to the **MySQL `world` database** provided by the lecturer.
+
+Connection settings are stored in `Database.java`:
+
+```java
+String host = "localhost";
+String database = "world";
+String user = "root";
+String password = "root";
 
 
 ### Code of Conduct
