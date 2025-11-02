@@ -2,9 +2,9 @@ name: Java CI with Maven
 
 on:
   push:
-    branches: [ master ]
+    branches: [ main, master, feature/* ]
   pull_request:
-    branches: [ master ]
+    branches: [ main, master ]
 
 jobs:
   build:
@@ -20,10 +20,6 @@ jobs:
           java-version: '17'
           distribution: 'temurin'
 
-      # Run all unit tests, skip integration tests that connect to DB
-      - name: Build and test with Maven
-        run: mvn -B clean verify -DskipITs=true
+      - name: Build with Maven (skip integration tests)
+        run: mvn -B clean verify -DskipITs=true --file pom.xml
 
-      # Package JAR file
-      - name: Package JAR
-        run: mvn -B package -DskipITs=true
