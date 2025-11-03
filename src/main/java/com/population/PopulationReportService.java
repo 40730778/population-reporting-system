@@ -1,6 +1,5 @@
 package com.population;
 
-import com.population.Database;
 import com.population.model.PopulationStat;
 import com.population.util.ReportPrinter;
 
@@ -9,13 +8,16 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Handles Population Reports (#23–28)
+ * Handles Population Reports (#23–31)
  * - 23: Continent population breakdown
  * - 24: Region population breakdown
  * - 25: Country population breakdown
  * - 26: World population total
  * - 27: Continent population total
  * - 28: Region population total
+ * - 29: Country population total
+ * - 30: District population total
+ * - 31: City population total
  *
  * Author: Israel Ayemo
  * Matric: 40730778
@@ -23,7 +25,7 @@ import java.util.List;
 public class PopulationReportService {
 
     // =========================================================
-    // Utility methods used across all population reports
+    // Utility methods
     // =========================================================
     private PopulationStat map(ResultSet rs) throws SQLException {
         long total = rs.getLong("TotalPopulation");
@@ -167,6 +169,75 @@ public class PopulationReportService {
             }
         } catch (SQLException e) {
             System.out.println("❌ Failed to get region population: " + e.getMessage());
+        }
+    }
+
+    // =========================================================
+    // REPORT 29: Total Population of a Country
+    // =========================================================
+    public void populationOfCountry(String country) {
+        String sql = """
+            SELECT Population
+            FROM country
+            WHERE Name = ?;
+        """;
+        try (Connection conn = Database.connect();
+             PreparedStatement ps = conn.prepareStatement(sql)) {
+            ps.setString(1, country);
+            try (ResultSet rs = ps.executeQuery()) {
+                if (rs.next()) {
+                    System.out.printf("🇨🇫 Population of %s: %,d%n",
+                            country, rs.getLong("Population"));
+                }
+            }
+        } catch (SQLException e) {
+            System.out.println("❌ Failed to get country population: " + e.getMessage());
+        }
+    }
+
+    // =========================================================
+    // REPORT 30: Total Population of a District
+    // =========================================================
+    public void populationOfDistrict(String district) {
+        String sql = """
+            SELECT SUM(Population) AS Population
+            FROM city
+            WHERE District = ?;
+        """;
+        try (Connection conn = Database.connect();
+             PreparedStatement ps = conn.prepareStatement(sql)) {
+            ps.setString(1, district);
+            try (ResultSet rs = ps.executeQuery()) {
+                if (rs.next()) {
+                    System.out.printf("🏙️ Population of %s District: %,d%n",
+                            district, rs.getLong("Population"));
+                }
+            }
+        } catch (SQLException e) {
+            System.out.println("❌ Failed to get district population: " + e.getMessage());
+        }
+    }
+
+    // =========================================================
+    // REPORT 31: Total Population of a City
+    // =========================================================
+    public void populationOfCity(String city) {
+        String sql = """
+            SELECT Population
+            FROM city
+            WHERE Name = ?;
+        """;
+        try (Connection conn = Database.connect();
+             PreparedStatement ps = conn.prepareStatement(sql)) {
+            ps.setString(1, city);
+            try (ResultSet rs = ps.executeQuery()) {
+                if (rs.next()) {
+                    System.out.printf("🏙️ Population of %s City: %,d%n",
+                            city, rs.getLong("Population"));
+                }
+            }
+        } catch (SQLException e) {
+            System.out.println("❌ Failed to get city population: " + e.getMessage());
         }
     }
 }
