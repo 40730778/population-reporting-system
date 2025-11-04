@@ -1,15 +1,22 @@
 package com.population;
 
-import com.population.Database;
-import com.population.util.ReportPrinter;
-
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Handles Language Statistics Reports
+ * Displays number and percentage of world population
+ * speaking Chinese, English, Hindi, Spanish, and Arabic.
+ *
+ * Author: Israel Ayemo
+ * Matric: 40730778
+ */
 public class LanguageStatsService {
 
-    // Helper class for table display
+    /**
+     * Represents a language statistic.
+     */
     private static class LanguageStat {
         String language;
         long speakers;
@@ -22,28 +29,17 @@ public class LanguageStatsService {
         }
     }
 
-    // Helper to print nicely formatted results
-    private void print(List<LanguageStat> items) {
-        List<String[]> rows = new ArrayList<>();
-        for (LanguageStat ls : items) {
-            rows.add(new String[]{
-                    ls.language,
-                    String.format("%,d", ls.speakers),
-                    String.format("%.2f%%", ls.percentage)
-            });
-        }
-        ReportPrinter.printTable(rows, "Language", "Speakers", "% of World");
-    }
-
-    // =====================================================
-    // REPORT 29–30: Language Statistics
-    // =====================================================
-    public void listLanguageStatistics() {
+    /**
+     * Fetches language statistics from the database.
+     *
+     * @return list of LanguageStat objects
+     */
+    private List<LanguageStat> getLanguageStats() {
+        List<LanguageStat> stats = new ArrayList<>();
         String sql = """
-            SELECT cl.Language AS Language,
-                   SUM(c.Population * cl.Percentage / 100) AS Speakers,
-                   (SUM(c.Population * cl.Percentage / 100) / 
-                       (SELECT SUM(Population) FROM country) * 100) AS WorldPercentage
+            SELECT 
+                cl.Language AS Language,
+                SUM(c.Population * (cl.Percentage / 100)) AS Speakers
             FROM countrylanguage cl
             JOIN country c ON cl.CountryCode = c.Code
             WHERE cl.Language IN ('Chinese', 'English', 'Hindi', 'Spanish', 'Arabic')
@@ -51,22 +47,45 @@ public class LanguageStatsService {
             ORDER BY Speakers DESC;
         """;
 
-        List<LanguageStat> list = new ArrayList<>();
+        String worldSQL = "SELECT SUM(Population) AS Total FROM country;";
 
         try (Connection conn = Database.connect();
-             Statement stmt = conn.createStatement();
-             ResultSet rs = stmt.executeQuery(sql)) {
-            while (rs.next()) {
-                list.add(new LanguageStat(
-                        rs.getString("Language"),
-                        rs.getLong("Speakers"),
-                        rs.getDouble("WorldPercentage")
-                ));
+             Statement stmt = conn.createStatement()) {
+
+            // Get world population
+            long worldPopulation = 0;
+            try (ResultSet rsWorld = stmt.executeQuery(worldSQL)) {
+                if (rsWorld.next()) worldPopulation = rsWorld.getLong("Total");
+            }
+
+            // Get each language population and percentage
+            try (ResultSet rs = stmt.executeQuery(sql)) {
+                while (rs.next()) {
+                    String lang = rs.getString("Language");
+                    long speakers = rs.getLong("Speakers");
+                    double percentage = (worldPopulation > 0)
+                            ? (speakers * 100.0 / worldPopulation)
+                            : 0.0;
+                    stats.add(new LanguageStat(lang, speakers, percentage));
+                }
             }
         } catch (SQLException e) {
-            System.out.println("❌ Query failed: " + e.getMessage());
+            System.out.println("❌ Error fetching language statistics: " + e.getMessage());
         }
 
-        print(list);
+        return stats;
+    }
+
+    /**
+     * Prints the list of languages with speakers and percentages.
+     */
+    public void printLanguageStats() {
+        List<LanguageStat> items = getLanguageStats();
+        System.out.printf("\n🌐 %-10s | %-15s | %-10s%n", "Language", "Speakers", "World %");
+        System.out.println("---------------------------------------------------");
+        for (LanguageStat ls : items) {
+            System.out.printf("🌍 %-10s | %,15d | %6.2f%%%n",
+                    ls.language, ls.speakers, ls.percentage);
+        }
     }
 }
