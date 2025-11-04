@@ -1,28 +1,35 @@
 package com.population;
 
-import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
-import java.sql.Connection;
+import java.sql.*;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-/**
- * Integration test for the Database connection.
- * This test checks if the system can connect to the MySQL database.
- * Tagged as "integration" so it can be skipped during CI builds.
- */
-@Tag("integration")
 public class DatabaseIntegrationTest {
 
     @Test
     void testDatabaseConnection() {
-        // Try to connect to the database
         Connection conn = Database.connect();
-
-        // Assert connection worked
         assertNotNull(conn, "Database connection should not be null");
-
-        // Close connection
         Database.disconnect();
+    }
+
+    @Test
+    void testQueryCountryCount() {
+        Connection conn = Database.connect();
+        assertNotNull(conn, "Database connection failed");
+
+        try (Statement stmt = conn.createStatement();
+             ResultSet rs = stmt.executeQuery("SELECT COUNT(*) FROM country")) {
+
+            assertTrue(rs.next(), "ResultSet should have at least one row");
+            int count = rs.getInt(1);
+            assertTrue(count > 0, "Expected at least one country in database");
+
+        } catch (SQLException e) {
+            fail("SQL query failed: " + e.getMessage());
+        } finally {
+            Database.disconnect();
+        }
     }
 }
