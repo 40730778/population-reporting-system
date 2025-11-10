@@ -1,5 +1,5 @@
 # 1. Use Java 17 base image
-FROM openjdk:17
+FROM amazoncorretto:17
 
 # 2. Copy the built JAR file into the container
 COPY target/population-reports-1.0-SNAPSHOT.jar app.jar
