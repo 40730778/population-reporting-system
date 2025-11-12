@@ -33,11 +33,11 @@ public class Database {
 
             // Create connection
             connection = DriverManager.getConnection(url, username, password);
-            System.out.println("✅ Connected to database.");
+            System.out.println(" Connected to database.");
         } catch (ClassNotFoundException e) {
-            System.out.println("❌ JDBC Driver not found: " + e.getMessage());
+            System.out.println(" JDBC Driver not found: " + e.getMessage());
         } catch (SQLException e) {
-            System.out.println("❌ Failed to connect: " + e.getMessage());
+            System.out.println(" Failed to connect: " + e.getMessage());
         }
         return connection;
     }
