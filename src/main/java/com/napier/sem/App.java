@@ -128,4 +128,4 @@ public class App {
                         rset.getString("Name"),
                         rset.getString("CountryName"),
                         rset.getString("District"),
-                        rset.getInt("Population
+                        rset.getInt("Population")
