@@ -2,7 +2,9 @@ version: '3'
 services:
   # Your Java Application
   app:
-    build: .
+    build:
+      context: .
+      dockerfile: Dockerfile
     # ... rest of config
 
   # The MySQL Database
