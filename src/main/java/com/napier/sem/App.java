@@ -109,13 +109,12 @@ public class App {
         try {
             Statement stmt = con.createStatement();
             // JOIN with country to get the Country Name instead of Code (Req: Name, Country, District, Pop)
-            String strSelect =
-                    "SELECT city.Name, country.Name AS CountryName, city.District, city.Population " +
-                            "FROM city " +
-                            "JOIN country ON city.CountryCode = country.Code " +
-                            "WHERE city.District = '" + district + "' " +
-                            "ORDER BY city.Population DESC " +
-                            "LIMIT " + n;
+            String strSelect = "SELECT city.Name, country.Name AS CountryName, city.District, city.Population " +
+                    "FROM city " +
+                    "JOIN country ON city.CountryCode = country.Code " +
+                    "WHERE city.District = '" + district + "' " +
+                    "ORDER BY city.Population DESC " +
+                    "LIMIT " + n;
 
             ResultSet rset = stmt.executeQuery(strSelect);
 
