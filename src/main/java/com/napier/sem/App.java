@@ -109,12 +109,13 @@ public class App {
         try {
             Statement stmt = con.createStatement();
             // JOIN with country to get the Country Name instead of Code (Req: Name, Country, District, Pop)
-            String strSelect = "SELECT city.Name, country.Name AS CountryName, city.District, city.Population " +
-                    "FROM city " +
-                    "JOIN country ON city.CountryCode = country.Code " +
-                    "WHERE city.District = '" + district + "' " +
-                    "ORDER BY city.Population DESC " +
-                    "LIMIT " + n;
+            String strSelect =
+                    "SELECT city.Name, country.Name AS CountryName, city.District, city.Population " +
+                            "FROM city " +
+                            "JOIN country ON city.CountryCode = country.Code " +
+                            "WHERE city.District = '" + district + "' " +
+                            "ORDER BY city.Population DESC " +
+                            "LIMIT " + n;
 
             ResultSet rset = stmt.executeQuery(strSelect);
 
@@ -128,4 +129,69 @@ public class App {
                         rset.getString("Name"),
                         rset.getString("CountryName"),
                         rset.getString("District"),
-                        rset.getInt("Population")
+                        rset.getInt("Population"));
+            }
+            System.out.println("--------------------------------------------------------------------------------\n");
+
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+            System.out.println("Failed to get district report.");
+        }
+    }
+
+    /**
+     * REQUIREMENT: Accessible Information (Single Query)
+     * The population of a specific city.
+     */
+    public void reportSpecificCityPopulation(String cityName) {
+        try {
+            Statement stmt = con.createStatement();
+            String strSelect = "SELECT Population FROM city WHERE Name = '" + cityName + "'";
+            ResultSet rset = stmt.executeQuery(strSelect);
+
+            if (rset.next()) {
+                System.out.println("--------------------------------------------------");
+                System.out.println("POPULATION CHECK: " + cityName);
+                System.out.println("Population: " + rset.getLong("Population"));
+                System.out.println("--------------------------------------------------\n");
+            } else {
+                System.out.println("City not found: " + cityName);
+            }
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+        }
+    }
+
+    /**
+     * MAIN METHOD
+     */
+    public static void main(String[] args) {
+        // Create new Application
+        App a = new App();
+
+        // Connect to database
+        // If running locally, you might need "localhost:33060".
+        // If running in Docker, it uses "db:3306".
+        if (args.length < 1) {
+            // Default for Docker (db is the name of the service in docker-compose)
+            a.connect("db:3306", 10000);
+        } else {
+            // Allows overriding for local testing (e.g. localhost:33060)
+            a.connect(args[0], Integer.parseInt(args[1]));
+        }
+
+        // --- GENERATE REPORTS ---
+
+        // 1. Language Report
+        a.reportLanguageStatistics();
+
+        // 2. District Report (Example: Top 5 cities in 'California')
+        a.reportTopNCitiesInDistrict("California", 5);
+
+        // 3. Single Population Check (Example: 'Edinburgh')
+        a.reportSpecificCityPopulation("Edinburgh");
+
+        // Disconnect
+        a.disconnect();
+    }
+}
