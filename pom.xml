@@ -45,6 +45,14 @@
             <scope>test</scope>
         </dependency>
 
+        <!-- CRUCIAL: JUnit 5 Parameterized Tests (Solves the "package org.junit.jupiter.params does not exist" error) -->
+        <dependency>
+            <groupId>org.junit.jupiter</groupId>
+            <artifactId>junit-jupiter-params</artifactId>
+            <version>${junit.jupiter.version}</version>
+            <scope>test</scope>
+        </dependency>
+
         <!-- Mockito Core (For general mocking functionality) -->
         <dependency>
             <groupId>org.mockito</groupId>
@@ -53,7 +61,7 @@
             <scope>test</scope>
         </dependency>
 
-        <!-- CRUCIAL: Mockito Integration with JUnit 5 (Solves the "red line" conflict) -->
+        <!-- Mockito Integration with JUnit 5 (Solves the "red line" conflict) -->
         <dependency>
             <groupId>org.mockito</groupId>
             <artifactId>mockito-junit-jupiter</artifactId>
@@ -109,17 +117,16 @@
                 <artifactId>maven-surefire-plugin</artifactId>
                 <version>3.2.5</version>
                 <configuration>
-                    <!-- Groups: skips integration tests by default, focuses on fast unit tests -->
                     <groups>!integration</groups>
                     <useModulePath>false</useModulePath>
-                    <!-- EXCLUDE THE FAILING LEGACY TEST FILE -->
+                    <!-- EXCLUDE THE FAILING LEGACY INTEGRATION TEST FILE -->
                     <excludes>
                         <exclude>**/DatabaseIntegrationTest.java</exclude>
                     </excludes>
                 </configuration>
             </plugin>
 
-            <!-- 4. Failsafe Plugin (For running Integration Tests - which are currently failing) -->
+            <!-- 4. Failsafe Plugin (For running Integration Tests) -->
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-failsafe-plugin</artifactId>
