@@ -7,7 +7,7 @@ services:
       dockerfile: Dockerfile
     # ... rest of config
 
-  # The MySQL Database
+  # This is the database provided by the module
   db:
     image: mysql:8.3
     environment:
@@ -15,6 +15,7 @@ services:
       MYSQL_DATABASE: world
     ports:
       - "33060:3306"
-    # This loads the data. Ensure world.sql is in your 'docker' folder or root.
     volumes:
+      # This line tells the DB container to load the world.sql file.
+      # Ensure you have deleted the 'world.sql' directory and placed the FILE here.
       - ./docker/world.sql:/docker-entrypoint-initdb.d/world.sql
