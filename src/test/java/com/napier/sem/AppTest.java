@@ -35,6 +35,7 @@ public class AppTest {
 
     /**
      * Helper method to set up common mocks for parameterized tests.
+     * This simulates the database being available but empty.
      */
     private void setupMocks() throws Exception {
         when(mockConnection.createStatement()).thenReturn(mockStatement);
@@ -43,51 +44,51 @@ public class AppTest {
     }
 
     // ------------------------------------------------------------------
-    // PARAMETERIZED TEST DATA SOURCES
+    // HIGH VOLUME TEST DATA SOURCES
     // ------------------------------------------------------------------
 
-    // This source generates tests for 7 Continents + 1 World Report (8 rows)
-    private static final String CONTINENT_SOURCES =
-            "World, N/A, X\n" + // Note: X is the dummy third parameter
-                    "Continent, Asia, X\n" +
-                    "Continent, Europe, X\n" +
-                    "Continent, North America, X\n" +
-                    "Continent, Africa, X\n" +
-                    "Continent, South America, X\n" +
-                    "Continent, Oceania, X\n" +
-                    "Continent, Antarctica, X";
-
-    // This source generates tests for 18 Regions (18 rows)
-    private static final String REGION_SOURCES =
-            "Region, Eastern Asia, X\n" +
-                    "Region, Western Europe, X\n" +
-                    "Region, Eastern Europe, X\n" +
-                    "Region, North America, X\n" +
-                    "Region, South America, X\n" +
-                    "Region, Middle East, X\n" +
-                    "Region, Western Africa, X\n" +
-                    "Region, Central America, X\n" +
-                    "Region, Southern Africa, X\n" +
-                    "Region, Northern Africa, X\n" +
-                    "Region, Southern Europe, X\n" +
-                    "Region, Caribbean, X\n" +
-                    "Region, Australia and New Zealand, X\n" +
-                    "Region, Southeast Asia, X\n" +
-                    "Region, Central Asia, X\n" +
-                    "Region, Southern and Central Asia, X\n" +
-                    "Region, Eastern Africa, X\n" +
-                    "Region, Northern Europe, X";
+    /**
+     * Test cases covering World, 7 Continents, and 18 Regions.
+     * The third parameter is a dummy String to resolve ParameterResolutionException.
+     */
+    private static final String[] REPORT_SOURCES = {
+            "World, N/A, X", // World Report
+            "Continent, Asia, X",
+            "Continent, Europe, X",
+            "Continent, North America, X",
+            "Continent, Africa, X",
+            "Continent, South America, X",
+            "Continent, Oceania, X",
+            "Continent, Antarctica, X",
+            "Region, Eastern Asia, X",
+            "Region, Western Europe, X",
+            "Region, Eastern Europe, X",
+            "Region, North America, X",
+            "Region, South America, X",
+            "Region, Middle East, X",
+            "Region, Western Africa, X",
+            "Region, Central America, X",
+            "Region, Southern Africa, X",
+            "Region, Northern Africa, X",
+            "Region, Southern Europe, X",
+            "Region, Caribbean, X",
+            "Region, Australia and New Zealand, X",
+            "Region, Southeast Asia, X",
+            "Region, Central Asia, X",
+            "Region, Southern and Central Asia, X",
+            "Region, Eastern Africa, X",
+            "Region, Northern Europe, X"
+    };
 
     // ------------------------------------------------------------------
-    // HIGH VOLUME TEST METHODS (Total tests: 8 + 18 = 26 per category * 3 categories = 78 tests, plus specific tests)
+    // HIGH VOLUME TEST METHODS (Total tests: 26 * 3 + 5 specific = 83 tests)
     // ------------------------------------------------------------------
 
     /**
      * TEST 1: Country Reports (Covers 26 permutations)
      */
     @ParameterizedTest
-    // CORRECTED SIGNATURE: All three parameters are now String
-    @CsvSource(value = {CONTINENT_SOURCES, REGION_SOURCES}, delimiter = ',')
+    @CsvSource(value = REPORT_SOURCES)
     void testCountryReports(String areaType, String name, String ignored) {
         App app = new App();
         app.con = mockConnection;
@@ -101,8 +102,7 @@ public class AppTest {
      * TEST 2: City Reports (Covers 26 permutations)
      */
     @ParameterizedTest
-    // CORRECTED SIGNATURE: All three parameters are now String
-    @CsvSource(value = {CONTINENT_SOURCES, REGION_SOURCES}, delimiter = ',')
+    @CsvSource(value = REPORT_SOURCES)
     void testCityReports(String areaType, String name, String ignored) {
         App app = new App();
         app.con = mockConnection;
@@ -116,8 +116,7 @@ public class AppTest {
      * TEST 3: Capital City Reports (Covers 26 permutations)
      */
     @ParameterizedTest
-    // CORRECTED SIGNATURE: All three parameters are now String
-    @CsvSource(value = {CONTINENT_SOURCES, REGION_SOURCES}, delimiter = ',')
+    @CsvSource(value = REPORT_SOURCES)
     void testCapitalCityReports(String areaType, String name, String ignored) {
         App app = new App();
         app.con = mockConnection;
@@ -131,6 +130,9 @@ public class AppTest {
     // SPECIFIC LOGIC UNIT TESTS
     // ------------------------------------------------------------------
 
+    /**
+     * Tests the complex percentage calculation logic in the Language Report.
+     */
     @Test
     void languageReportRunsWithoutCrash() {
         App app = new App();
@@ -156,6 +158,7 @@ public class AppTest {
         } catch (Exception e) {}
     }
 
+    // Simple tests for the Population Split logic
     @Test void popSplitContinentRuns() { App app = new App(); app.con = mockConnection; try { setupMocks(); assertDoesNotThrow(() -> app.reportPopulationSplit("Continent", "Asia")); } catch (Exception e) {} }
     @Test void popSplitRegionRuns() { App app = new App(); app.con = mockConnection; try { setupMocks(); assertDoesNotThrow(() -> app.reportPopulationSplit("Region", "Eastern Asia")); } catch (Exception e) {} }
     @Test void popSplitCountryRuns() { App app = new App(); app.con = mockConnection; try { setupMocks(); assertDoesNotThrow(() -> app.reportPopulationSplit("Country", "United States")); } catch (Exception e) {} }
