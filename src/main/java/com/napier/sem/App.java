@@ -106,6 +106,10 @@ public class App {
      * REQUIREMENT: Population Split Report (Total vs. In Cities vs. Not in Cities)
      * Generic method to report population breakdown for a given area type (Continent, Region, Country).
      */
+    /**
+     * REQUIREMENT: Population Split Report (Total vs. In Cities vs. Not in Cities)
+     * Generic method to report population breakdown for a given area type (Continent, Region, Country).
+     */
     public void reportPopulationSplit(String type, String name) {
         String title = type.toUpperCase() + ": " + name;
 
@@ -117,9 +121,10 @@ public class App {
         switch (type.toLowerCase()) {
             case "continent":
             case "region":
-                // For Continent/Region, we need the SUM of all countries in that area
+                // Use SUM(city.Population) and join through CountryCode
                 sqlTotalPop = "SELECT SUM(Population) FROM country WHERE " + type + " = '" + name + "'";
-                sqlCityPop = "SELECT SUM(city.Population) FROM city c JOIN country co ON c.CountryCode = co.Code WHERE co." + type + " = '" + name + "'";
+                // CORRECTED QUERY: Use explicit SUM(c.Population) for clarity
+                sqlCityPop = "SELECT SUM(c.Population) AS CitySum FROM city c JOIN country co ON c.CountryCode = co.Code WHERE co." + type + " = '" + name + "'";
                 break;
             case "country":
                 // For a specific country, the population is directly available
@@ -143,6 +148,8 @@ public class App {
             long popInCities = 0;
             ResultSet rsetCity = stmt.executeQuery(sqlCityPop);
             if (rsetCity.next()) {
+                // Accessing the result by its index (1) or the alias ('CitySum')
+                // Using getLong(1) is safer here.
                 popInCities = rsetCity.getLong(1);
             }
 
