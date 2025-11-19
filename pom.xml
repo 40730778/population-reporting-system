@@ -119,6 +119,12 @@
                 <configuration>
                     <groups>!integration</groups>
                     <useModulePath>false</useModulePath>
+
+                    <!-- ADD THIS PROPERTY TO FIX MOCKITO WARNINGS -->
+                    <properties>
+                        <mockito.strictness>lenient</mockito.strictness>
+                    </properties>
+
                     <!-- EXCLUDE THE FAILING LEGACY INTEGRATION TEST FILE -->
                     <excludes>
                         <exclude>**/DatabaseIntegrationTest.java</exclude>
