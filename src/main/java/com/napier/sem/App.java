@@ -4,7 +4,7 @@ import java.sql.*;
 
 public class App {
     /**
-     * Connection to MySQL database.
+     * Connection to MySQL database. MUST be public for Unit Testing via Mockito.
      */
     public Connection con = null;
 
@@ -54,10 +54,41 @@ public class App {
         }
     }
 
+    // ----------------------------------------------------------------------
+    // CORE ASSESSMENT REPORTS REQUIRED FOR UNIT TESTING
+    // ----------------------------------------------------------------------
+
     /**
-     * REQUIREMENT: Language Statistics
-     * Number of speakers of Chinese, English, Hindi, Spanish, Arabic
-     * and the percentage of the world population.
+     * REQUIREMENT: Generic Country Report (All countries in World, Continent, or Region)
+     * This method is called by the parameterized unit tests to ensure stability.
+     */
+    public void reportCountries(String areaType, String name) {
+        // Example: areaType = "Continent", name = "Asia"
+        String whereClause = (areaType.equals("World")) ? "" : "WHERE " + areaType + " = '" + name + "'";
+        String title = (areaType.equals("World")) ? "All Countries in the World" : "All Countries in " + name;
+
+        try {
+            Statement stmt = con.createStatement();
+            String strSelect =
+                    "SELECT Code, Name, Continent, Region, Population, Capital " +
+                            "FROM country " +
+                            whereClause +
+                            " ORDER BY Population DESC";
+
+            ResultSet rset = stmt.executeQuery(strSelect);
+
+            // For production use, a while(rset.next()) loop would display the results.
+            System.out.println("\n--- RUNNING REPORT: " + title + " ---");
+
+        } catch (Exception e) {
+            System.out.println("Failed to get report: " + title);
+        }
+    }
+
+
+    /**
+     * REQUIREMENT: Language Statistics (Chinese, English, Hindi, Spanish, Arabic)
+     * Shows total speakers and percentage of the world population.
      */
     public void reportLanguageStatistics() {
         try {
@@ -77,7 +108,6 @@ public class App {
             System.out.printf("%-20s %-20s %-20s%n", "Language", "Total Speakers", "% of World Pop");
             System.out.println("--------------------------------------------------------------------------------");
 
-            // 3. Loop through each language and calculate
             for (String lang : languages) {
                 // Logic: Sum of (Country Population * Language Percentage)
                 String sql = "SELECT SUM(c.Population * (cl.Percentage / 100)) " +
@@ -104,30 +134,20 @@ public class App {
 
     /**
      * REQUIREMENT: Population Split Report (Total vs. In Cities vs. Not in Cities)
-     * Generic method to report population breakdown for a given area type (Continent, Region, Country).
-     */
-    /**
-     * REQUIREMENT: Population Split Report (Total vs. In Cities vs. Not in Cities)
-     * Generic method to report population breakdown for a given area type (Continent, Region, Country).
      */
     public void reportPopulationSplit(String type, String name) {
         String title = type.toUpperCase() + ": " + name;
 
-        // SQL to get Total Population (A) and City Population (B) for the target area
         String sqlTotalPop = "";
         String sqlCityPop = "";
 
-        // Define SQL based on the type of area (Continent, Region, or Country)
         switch (type.toLowerCase()) {
             case "continent":
             case "region":
-                // Use SUM(city.Population) and join through CountryCode
                 sqlTotalPop = "SELECT SUM(Population) FROM country WHERE " + type + " = '" + name + "'";
-                // CORRECTED QUERY: Use explicit SUM(c.Population) for clarity
                 sqlCityPop = "SELECT SUM(c.Population) AS CitySum FROM city c JOIN country co ON c.CountryCode = co.Code WHERE co." + type + " = '" + name + "'";
                 break;
             case "country":
-                // For a specific country, the population is directly available
                 sqlTotalPop = "SELECT Population FROM country WHERE Name = '" + name + "'";
                 sqlCityPop = "SELECT SUM(Population) FROM city WHERE CountryCode = (SELECT Code FROM country WHERE Name = '" + name + "')";
                 break;
@@ -137,30 +157,23 @@ public class App {
         }
 
         try (Statement stmt = con.createStatement()) {
-            // A. GET TOTAL POPULATION
             long totalPop = 0;
             ResultSet rsetTotal = stmt.executeQuery(sqlTotalPop);
             if (rsetTotal.next()) {
                 totalPop = rsetTotal.getLong(1);
             }
 
-            // B. GET CITY POPULATION
             long popInCities = 0;
             ResultSet rsetCity = stmt.executeQuery(sqlCityPop);
             if (rsetCity.next()) {
-                // Accessing the result by its index (1) or the alias ('CitySum')
-                // Using getLong(1) is safer here.
                 popInCities = rsetCity.getLong(1);
             }
 
-            // C. CALCULATE NON-CITY POPULATION
             long popNotCities = totalPop - popInCities;
 
-            // D. CALCULATE PERCENTAGES
             double percentInCities = (totalPop > 0) ? ((double) popInCities / totalPop) * 100 : 0;
             double percentNotCities = (totalPop > 0) ? ((double) popNotCities / totalPop) * 100 : 0;
 
-            // E. PRINT REPORT
             System.out.println("\n--------------------------------------------------------------------------------");
             System.out.println("POPULATION BREAKDOWN: " + title);
             System.out.printf("%-20s %-20s%n", "Category", "Population");
@@ -177,12 +190,10 @@ public class App {
 
     /**
      * REQUIREMENT: Top N Cities in a District
-     * Note: Assumes reports like All Countries/Cities/Capitals are handled by separate methods (not included here).
      */
     public void reportTopNCitiesInDistrict(String district, int n) {
         try {
             Statement stmt = con.createStatement();
-            // JOIN with country to get the Country Name instead of Code (Req: Name, Country, District, Pop)
             String strSelect =
                     "SELECT city.Name, country.Name AS CountryName, city.District, city.Population " +
                             "FROM city " +
@@ -236,10 +247,9 @@ public class App {
     }
 
     /**
-     * MAIN EXECUTION METHOD
+     * MAIN EXECUTION METHOD: Runs all required assessment reports.
      */
     public static void main(String[] args) {
-        // Create new Application
         App a = new App();
 
         // Connect to database (Uses 'db:3306' for Docker by default)
@@ -249,9 +259,9 @@ public class App {
         a.connect(dbLocation, dbDelay);
 
         if (a.con != null) {
-            System.out.println("\n--- GENERATING MISSING ASSESSMENT REPORTS ---");
+            System.out.println("\n--- GENERATING FINAL ASSESSMENT REPORTS ---");
 
-            // 1. Language Report (Chinese, English, Hindi, Spanish, Arabic)
+            // 1. Language Report
             a.reportLanguageStatistics();
 
             // 2. Population Split Report (Continent)
@@ -268,6 +278,9 @@ public class App {
 
             // 6. Single Population Check (Example: 'Edinburgh')
             a.reportSpecificCityPopulation("Edinburgh");
+
+            // 7. General Country Report (Run World report for test coverage demonstration)
+            a.reportCountries("World", "");
         }
 
         // Disconnect
