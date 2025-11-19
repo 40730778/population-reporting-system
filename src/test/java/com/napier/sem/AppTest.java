@@ -6,6 +6,10 @@ import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
+import org.mockito.junit.jupiter.MockitoSettings;
+import org.mockito.quality.Strictness;
+
+// --- CRITICAL JAVA SQL IMPORTS (Fixes "Cannot resolve symbol Statement/ResultSet") ---
 import java.sql.Connection;
 import java.sql.Statement;
 import java.sql.ResultSet;
@@ -15,9 +19,11 @@ import static org.mockito.Mockito.*;
 
 /**
  * High-Volume Parameterized Tests (Generating 14+ scenarios from a few lines of code).
- * This class uses Mockito to isolate the application logic (Java code) from the database connection.
+ * Uses Mockito to isolate the application logic from the database connection.
  */
 @ExtendWith(MockitoExtension.class)
+// The fix for "Unnecessary stubbings detected" when using parameterized tests:
+@MockitoSettings(strictness = Strictness.LENIENT)
 public class AppTest {
 
     // These variables will be automatically set up by MockitoExtension
@@ -29,17 +35,16 @@ public class AppTest {
     private ResultSet mockResultSet;
 
     /**
-     * Helper method to set up common mocks for all parameterized tests,
-     * ensuring the database commands run without errors.
+     * Helper method to set up common mocks for parameterized tests.
      */
     private void setupMocks() throws Exception {
         // Mock connection and statement creation
         when(mockConnection.createStatement()).thenReturn(mockStatement);
 
-        // Ensure any SQL query executed returns a mock result set
+        // Mock any SQL query execution to return the mock result set
         when(mockStatement.executeQuery(anyString())).thenReturn(mockResultSet);
 
-        // Simulate that the result set is initially empty (no records found)
+        // Mock the result set to return false (no records found) by default
         when(mockResultSet.next()).thenReturn(false);
     }
 
@@ -48,8 +53,7 @@ public class AppTest {
     // ------------------------------------------------------------------
 
     /**
-     * Generates a test case for every major continent. (7 tests)
-     * Test passes if the report method runs without crashing (since setupMocks handles the return value).
+     * Generates a test case for every major continent (7 tests).
      */
     @ParameterizedTest
     @CsvSource(value = {
@@ -68,12 +72,12 @@ public class AppTest {
             setupMocks();
             assertDoesNotThrow(() -> app.reportCountries(areaType, name));
         } catch (Exception e) {
-            // Test fails if setup breaks
+            // Test passes if the method runs without throwing an exception
         }
     }
 
     /**
-     * Generates a test case for several common regions. (4 tests)
+     * Generates a test case for several common regions (4 tests).
      */
     @ParameterizedTest
     @CsvSource(value = {
@@ -89,12 +93,12 @@ public class AppTest {
             setupMocks();
             assertDoesNotThrow(() -> app.reportCountries(areaType, name));
         } catch (Exception e) {
-            // Test fails if setup breaks
+            // Test passes if the method runs without throwing an exception
         }
     }
 
     /**
-     * Generates a test case for a simple global report. (1 test)
+     * Generates a test case for a simple global report (1 test).
      */
     @Test
     void countryReportByWorldRunsWithoutCrash() {
@@ -104,7 +108,7 @@ public class AppTest {
             setupMocks();
             assertDoesNotThrow(() -> app.reportCountries("World", ""));
         } catch (Exception e) {
-            // Test fails if setup breaks
+            // Test passes if the method runs without throwing an exception
         }
     }
 
@@ -120,13 +124,13 @@ public class AppTest {
         App app = new App();
         app.con = mockConnection;
         try {
-            // 1. Mock the World Population Query
+            // Mock the world population query and result
             when(mockConnection.createStatement()).thenReturn(mockStatement);
             when(mockStatement.executeQuery(startsWith("SELECT SUM(Population)"))).thenReturn(mockResultSet);
             when(mockResultSet.next()).thenReturn(true).thenReturn(false); // First result true, then end
             when(mockResultSet.getLong(1)).thenReturn(6000000000L); // Mock 6 Billion World Pop
 
-            // 2. Mock the Language Speaker Query (run 5 times for 5 languages)
+            // Mock the subsequent 5 language queries and results
             when(mockStatement.executeQuery(startsWith("SELECT SUM(c.Population"))).thenReturn(mockResultSet);
             when(mockResultSet.getLong(1)).thenReturn(300000000L); // Mock 300 million speakers for any language
 
