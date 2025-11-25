@@ -92,6 +92,34 @@ Follow the prompts to generate reports by country, city, or language statistics.
 - Language Statistics (feature/language-stats)
 - Population Statistics
 
+- ## Report Output Formats
+
+### Country Report
+- Code
+- Name
+- Continent
+- Region
+- Population
+- Capital
+
+### City Report
+- Name
+- Country
+- District
+- Population
+
+### Capital City Report
+- Name
+- Country
+- Population
+
+### Population Report
+- Name of continent/region/country
+- Total population
+- Population living in cities (with %)
+- Population not living in cities (with %)
+
+
 ## 🧩 Branching Strategy
 
 The project follows the **Git Flow** branching model:
