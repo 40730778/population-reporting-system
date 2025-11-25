@@ -157,16 +157,16 @@ String host = "localhost";
 String database = "world";
 String user = "root";
 String password = "root";
+```
 
 
-### Code of Conduct
+
+## Code of Conduct
 Please see CODE_OF_CONDUCT.md for guidelines on contributing and interacting with the team.
 
-### Contributors
+## Contributors
 Dara Adekoya
-
 Israel Ayemo
-
 Ahmed Ismail
 
 
