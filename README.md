@@ -15,7 +15,6 @@ This project is a **Population Reporting System** developed as part of the **SET
 - Build and run with Maven or Docker.
 .
 ## Project Structure
-## Project Structure
 
 population-reports/
 ├─ src/main/java/com/napier/sem/   # Java source code
@@ -82,15 +81,7 @@ java -jar target/population-reports-1.0-SNAPSHOT.jar
 ```
 Follow the prompts to generate reports by country, city, or language statistics.
 
-## Current Features Implemented
-- Country Report (feature/country-report)
-- City Report (feature/city-report)
-- Capital City Report (feature/capital-city-report)
-- Language Statistics (feature/language-stats)
-- Population Statistics
-
 - ## Report Output Formats
-
 ### Country Report
 - Code
 - Name
@@ -115,6 +106,13 @@ Follow the prompts to generate reports by country, city, or language statistics.
 - Total population
 - Population living in cities (with %)
 - Population not living in cities (with %)
+
+## Current Features Implemented
+- Country Report (feature/country-report)
+- City Report (feature/city-report)
+- Capital City Report (feature/capital-city-report)
+- Language Statistics (feature/language-stats)
+- Population Statistics
 
 
 ## 🧩 Branching Strategy
