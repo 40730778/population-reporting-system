@@ -18,10 +18,15 @@ This project is a **Population Reporting System** developed as part of the **SET
 population-reports/
 │
 ├─ src/main/java/com/napier/sem/ # Java source code
+
 ├─ target/ # Compiled JAR file (after build)
+
 ├─ pom.xml # Maven build file
+
 ├─ Dockerfile # Docker image definition
+
 ├─ CODE_OF_CONDUCT.md # Project Code of Conduct
+
 └─ README.md # Project documentation
 
 php-template
@@ -33,7 +38,7 @@ Copy code
 - Optional: **Docker**
 
 
-##Scrum & Workflow
+## Scrum & Workflow
 
 Project managed using Scrum methodology
 
