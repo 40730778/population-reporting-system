@@ -154,4 +154,17 @@ Dara Adekoya
 Israel Ayemo
 
 Ahmed Ismail
+
+
+## Team Contribution Tracking
+
+Group work completed collaboratively through shared repository
+
+Individual contributions monitored via GitHub metrics
+
+Required contribution spreadsheet completed at each review point
+
+Percentages agreed collectively by team
+
+Peer assessment used to adjust individual weighting if necessary
 .
