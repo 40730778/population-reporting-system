@@ -132,6 +132,20 @@ This ensures every commit is tested for compilation, functionality, and integrat
 
 All tests execute automatically in GitHub Actions.
 
+
+## Team Contribution Tracking
+
+Group work completed collaboratively through shared repository
+
+Individual contributions monitored via GitHub metrics
+
+Required contribution spreadsheet completed at each review point
+
+Percentages agreed collectively by team
+
+Peer assessment used to adjust individual weighting if necessary
+
+
 ## 🗄️ Database Configuration
 
 The application connects to the **MySQL `world` database** provided by the lecturer.
@@ -156,15 +170,5 @@ Israel Ayemo
 Ahmed Ismail
 
 
-## Team Contribution Tracking
 
-Group work completed collaboratively through shared repository
-
-Individual contributions monitored via GitHub metrics
-
-Required contribution spreadsheet completed at each review point
-
-Percentages agreed collectively by team
-
-Peer assessment used to adjust individual weighting if necessary
 .
