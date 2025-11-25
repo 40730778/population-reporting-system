@@ -13,7 +13,7 @@ This project is a **Population Reporting System** developed as part of the **SET
 - Language statistics:
   - Number of people speaking Chinese, English, Hindi, Spanish, Arabic (with % of world population)
 - Build and run with Maven or Docker.
-
+.
 ## Project Structure
 population-reports/
 │
