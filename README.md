@@ -89,6 +89,7 @@ Follow the prompts to generate reports by country, city, or language statistics.
 ## Current Features Implemented
 - Country Report (feature/country-report)
 - City Report (feature/city-report)
+- Capital City Report (feature/capital-city-report)
 - Language Statistics (feature/language-stats)
 - Population Statistics
 
