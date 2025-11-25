@@ -15,22 +15,18 @@ This project is a **Population Reporting System** developed as part of the **SET
 - Build and run with Maven or Docker.
 .
 ## Project Structure
+## Project Structure
+
 population-reports/
-│
-├─ src/main/java/com/napier/sem/ # Java source code
+├─ src/main/java/com/napier/sem/   # Java source code
+├─ target/                         # Compiled JAR (after build)
+├─ pom.xml                         # Maven build file
+├─ Dockerfile                      # Docker image definition
+├─ docker-compose.yml              # Docker Compose for app + DB
+├─ docs/                           # Use cases, diagrams, documentation
+├─ CODE_OF_CONDUCT.md              # Project Code of Conduct
+└─ README.md                       # Project documentation
 
-├─ target/ # Compiled JAR file (after build)
-
-├─ pom.xml # Maven build file
-
-├─ Dockerfile # Docker image definition
-
-├─ CODE_OF_CONDUCT.md # Project Code of Conduct
-
-└─ README.md # Project documentation
-
-php-template
-Copy code
 
 <!-- Prerequisites -->
 - **Java 17**
