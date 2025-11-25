@@ -33,15 +33,21 @@ Copy code
 - Optional: **Docker**
 
 
-## Scrum & Workflow
+##Scrum & Workflow
 
--Project managed using Scrum methodology
--Product Backlog maintained through GitHub Issues
--Tasks defined as User Stories
--Use Cases documented for core reporting features
--Use Case Diagram included in project documentation
--Sprint and Kanban boards managed via Zube.io
--Team collaboration tracked through commits, issues, and reviews
+Project managed using Scrum methodology
+
+Product Backlog maintained through GitHub Issues
+
+Tasks defined as User Stories
+
+Use Cases documented for core reporting features
+
+Use Case Diagram included in project documentation
+
+Sprint and Kanban boards managed via Zube.io
+
+Team collaboration tracked through commits, issues, and reviews
 
 ## Build Instructions
 ### Using Maven
