@@ -12,7 +12,7 @@ This project is a **Population Reporting System** developed as part of the **SET
   - People living in cities vs not living in cities (with percentages)
 - Language statistics:
   - Number of people speaking Chinese, English, Hindi, Spanish, Arabic (with % of world population)
-- Build and run with Maven or Docker
+- Build and run with Maven or Docker.
 
 ## Project Structure
 population-reports/
