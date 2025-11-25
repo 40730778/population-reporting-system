@@ -1,4 +1,4 @@
-# Population Reporting System.
+# Population Reporting System
 
 ## Overview
 This project is a **Population Reporting System** developed as part of the **SET08103 Software Engineering Methods** module. It allows users to generate reports on populations of countries, cities, districts, and languages using an SQL database. The system is implemented in **Java 17**, packaged with Maven, and optionally can be run using **Docker**.
