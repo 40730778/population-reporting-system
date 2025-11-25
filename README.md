@@ -164,9 +164,21 @@ String password = "root";
 ## Code of Conduct
 Please see CODE_OF_CONDUCT.md for guidelines on contributing and interacting with the team.
 
+## Deployment
+
+Application deployable via Docker container
+
+Database connection configurable for deployment environment
+
+Deployment process demonstrated for Code Review 4
+
+Bug reporting handled through GitHub Issues
+
 ## Contributors
 Dara Adekoya
+
 Israel Ayemo
+
 Ahmed Ismail
 
 
