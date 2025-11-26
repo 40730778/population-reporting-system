@@ -189,13 +189,13 @@ Please see CODE_OF_CONDUCT.md for guidelines on contributing and interacting wit
 
 ## Deployment
 
-Application deployable via Docker container
+The application is fully deployable using Docker containers. The project uses Docker Compose to orchestrate both the Java application and the MySQL database in isolated containers.
 
-Database connection configurable for deployment environment
+The database is deployed using a MySQL container and is automatically initialised using an SQL script. The application dynamically connects to the database at runtime through environment-based configuration, allowing flexible deployment across different environments.
 
-Deployment process demonstrated for Code Review 4
+The deployment process has been successfully demonstrated during Code Review 4, including building Docker images, starting containers, and verifying database connectivity.
 
-Bug reporting handled through GitHub Issues
+A structured bug reporting system is implemented using GitHub Issues, including predefined issue templates to standardise bug reports and improve team collaboration.
 
 ## Contributors
 Dara Adekoya
